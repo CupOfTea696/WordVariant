@@ -18,7 +18,7 @@ class WordVariantCore
      *
      * @const string
      */
-    const VERSION = '0.0.0';
+    const VERSION = '1.0.0';
     
     /**
      * All characters that are allowed in the resulting variants.
