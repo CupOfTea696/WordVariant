@@ -1,0 +1,20 @@
+{
+    "name": "cupoftea/word-variant",
+    "description": "Generate words that look like the given word.",
+    "require": {
+        "cupoftea/package": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CupOfTea696",
+            "email": "cupoftea696@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CupOfTea\\WordVariant\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
