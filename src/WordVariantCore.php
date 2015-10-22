@@ -4,17 +4,16 @@ use CupOfTea\Package\Package;
 
 class WordVariantCore
 {
-    
     use Package;
     
     /**
-     * Package Name
+     * Package Name.
      *
      * @const string
      */
     const PACKAGE = 'CupOfTea/WordVariant';
     /**
-     * Package Version
+     * Package Version.
      *
      * @const string
      */
@@ -87,10 +86,10 @@ class WordVariantCore
     }
     
     /**
-     * Get variants for a specific letter
+     * Get variants for a specific letter.
      *
      * @param  string $letter Letter to get variants of
-     * @return Array Variants.
+     * @return array Variants.
      */
     public function getVariant($letter)
     {
@@ -98,7 +97,7 @@ class WordVariantCore
     }
     
     /**
-     * Add one or more variants for a letter
+     * Add one or more variants for a letter.
      *
      * @param string   $letter   Letter to add variant(s) for.
      * @param string|array $variants Variant(s) to be added for the letter.
@@ -106,18 +105,18 @@ class WordVariantCore
      */
     public function addVariant($letter, $variants)
     {
-        if (!isset($this->variants[$letter])) {
+        if (! isset($this->variants[$letter])) {
             $this->variants[$letter] = [];
         }
         
         foreach ((array) $variants as $variant) {
-            if (!preg_match('/[^' . preg_quote($this->allowed_characters) . ']/', $variant)) {
+            if (! preg_match('/[^' . preg_quote($this->allowed_characters) . ']/', $variant)) {
                 $this->variants[$letter] = array_push($this->variants[$letter], $variant);
             }
         }
         
         $this->variants[$letter] = array_unique($this->variants[$letter]);
-        if (!count($this->variants[$letter])) {
+        if (! count($this->variants[$letter])) {
             unset($this->variants[$letter]);
         }
     }
@@ -125,7 +124,7 @@ class WordVariantCore
     /**
      * Get all variants.
      *
-     * @return Array All letters and their variants.
+     * @return array All letters and their variants.
      */
     public function getVariants()
     {
@@ -135,7 +134,7 @@ class WordVariantCore
     /**
      * Set the varitants Array.
      *
-     * @param Array $variants All letters and their variants.
+     * @param array $variants All letters and their variants.
      * @return void
      */
     public function setVariants($variants)
@@ -145,10 +144,10 @@ class WordVariantCore
     }
     
     /**
-     * Get variants for a word
+     * Get variants for a word.
      *
      * @param  string $word Word to find variants for.
-     * @return Array    All word variants.
+     * @return array    All word variants.
      */
     public function get($word)
     {
@@ -161,35 +160,35 @@ class WordVariantCore
         
         for ($l = 1; $l <= $word_length; $l++) {
             for ($i = 0; $i < $word_length - ($l - 1); $i++) {
-				$replace = substr($word, $i, $l);
+                $replace = substr($word, $i, $l);
                 
-                $left_bounds  = [0, max($i - 1, 0)];
+                $left_bounds = [0, max($i - 1, 0)];
                 $right_bounds = [min($i + $l + 1, $word_length), $word_length - min($i + $l + 1, $word_length)];
                 
-				$left  = substr($word, $left_bounds[0],  $left_bounds[1] );
-				$right = substr($word, $right_bounds[0], $right_bounds[1]);
-				
-				$left_variants  = $this->all($left);
-				$right_variants = $this->all($right);
-				
-				foreach ($this->variants as $letter => $variants) {
+                $left = substr($word, $left_bounds[0], $left_bounds[1]);
+                $right = substr($word, $right_bounds[0], $right_bounds[1]);
+                
+                $left_variants = $this->all($left);
+                $right_variants = $this->all($right);
+                
+                foreach ($this->variants as $letter => $variants) {
                     foreach ($variants as $variant) {
                         $replace = str_replace($letter, $variant, $replace);
                     }
                 }
-				
-				$word_variants[] = $word_variant = substr_replace($word, $replace, $i, $l);
-				
-				foreach ($left_variants as $left_variant) {
-					$word_variants[] = substr_replace($word_variant, $left_variant, $left_bounds[0], $left_bounds[1]);
-				}
-				foreach ($right_variants as $right_variant) {
-					$word_variants[] = substr_replace($word_variant, $right_variant, $right_bounds[0], $right_bounds[1]);
-				}
+                
+                $word_variants[] = $word_variant = substr_replace($word, $replace, $i, $l);
+                
+                foreach ($left_variants as $left_variant) {
+                    $word_variants[] = substr_replace($word_variant, $left_variant, $left_bounds[0], $left_bounds[1]);
+                }
+                foreach ($right_variants as $right_variant) {
+                    $word_variants[] = substr_replace($word_variant, $right_variant, $right_bounds[0], $right_bounds[1]);
+                }
             }
         }
-		
-		return array_unique($word_variants);
+        
+        return array_unique($word_variants);
     }
     
     /**
@@ -201,15 +200,14 @@ class WordVariantCore
     {
         if ($this->allowed_characters !== null) {
             foreach ($this->variants as $letter => $variants) {
-                $this->variants[$letter] = array_filter($variants, function($variant) {
-                    return !preg_match('/' . preg_quote($this->allowed_characters) . '/', $variant);
+                $this->variants[$letter] = array_filter($variants, function ($variant) {
+                    return ! preg_match('/' . preg_quote($this->allowed_characters) . '/', $variant);
                 });
                 
-                if (!count($this->variants[$letter])) {
+                if (! count($this->variants[$letter])) {
                     unset($this->variants[$letter]);
                 }
             }
         }
     }
-    
 }
