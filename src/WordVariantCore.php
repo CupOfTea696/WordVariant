@@ -201,7 +201,7 @@ class WordVariantCore
     {
         if ($this->allowed_characters !== null) {
             foreach ($this->variants as $letter => $variants) {
-                $this->variants[$letter] = array_filter($variants, function($variant) use ($this) {
+                $this->variants[$letter] = array_filter($variants, function($variant) {
                     return !preg_match('/' . preg_quote($this->allowed_characters) . '/', $variant);
                 });
                 
