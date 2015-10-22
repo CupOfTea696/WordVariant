@@ -2,7 +2,6 @@
 
 class WordVariant
 {
-    
     /**
      * The object instance.
      *
@@ -55,5 +54,4 @@ class WordVariant
                 return call_user_func_array([$instance, $method], $args);
         }
     }
-    
 }
